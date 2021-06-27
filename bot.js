@@ -24,7 +24,7 @@ client.on("message", async (message) => {
         console.log(error);
       }
     }
-    if (cmdName === "aww") {
+    if (cmdName === "pup") {
       const random = Math.floor(Math.random() * 100);
       const post = await getFloofs(random);
       message.channel.send(post.title, { files: [post.url] });
@@ -43,7 +43,9 @@ const getMemes = async (num) => {
   return postArray[num].data;
 };
 const getFloofs = async (num) => {
-  const posts = await fetch("https://www.reddit.com/r/aww/top.json?limit=100");
+  const posts = await fetch(
+    "https://www.reddit.com/r/PuppySmiles/hot.json?limit=100"
+  );
   const data = await posts.json();
   const postArray = data.data.children;
   return postArray[num].data;

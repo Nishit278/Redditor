@@ -34,6 +34,15 @@ client.on("message", async (message) => {
         console.log(err);
       }
     }
+    if (cmdName === "darkjoke") {
+      try {
+        const random = Math.floor(Math.random() * 100);
+        const post = await getDarkJokes(random);
+        message.channel.send(`${post.title} \n${post.selftext}`);
+      } catch (err) {
+        console.log(err);
+      }
+    }
     if (cmdName === "yum") {
       try {
         const random = Math.floor(Math.random() * 100);
@@ -50,7 +59,7 @@ client.on("message", async (message) => {
     }
   }
 });
-  // keepAlive();
+// keepAlive();
 
 client.login(TOKEN);
 
@@ -71,8 +80,14 @@ const getWholesome = async (num) => {
   return postArray[num].data;
 };
 const getFood = async (num) => {
+  const posts = await fetch("https://www.reddit.com/r/Food/hot.json?limit=100");
+  const data = await posts.json();
+  const postArray = data.data.children;
+  return postArray[num].data;
+};
+const getDarkJokes = async (num) => {
   const posts = await fetch(
-    "https://www.reddit.com/r/Food/hot.json?limit=100"
+    "https://www.reddit.com/r/DarkJokes/hot.json?limit=100"
   );
   const data = await posts.json();
   const postArray = data.data.children;

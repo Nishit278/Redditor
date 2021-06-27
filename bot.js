@@ -21,7 +21,7 @@ client.on("message", async (message) => {
         const post = await getMemes(random);
         message.channel.send(post.title, { files: [post.url] });
       } catch (err) {
-        console.log(error);
+        console.log(err);
       }
     }
     if (cmdName === "wholesome") {
@@ -30,7 +30,7 @@ client.on("message", async (message) => {
         const post = await getWholesome(random);
         message.channel.send(post.title, { files: [post.url] });
       } catch (err) {
-        console.log(error);
+        console.log(err);
       }
     }
     if (cmdName === "pup") {
@@ -51,7 +51,7 @@ const getMemes = async (num) => {
   const postArray = data.data.children;
   return postArray[num].data;
 };
-const gerWholesome = async (num) => {
+const getWholesome = async (num) => {
   const posts = await fetch(
     "https://www.reddit.com/r/wholesomememes/hot.json?limit=100"
   );

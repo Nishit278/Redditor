@@ -24,6 +24,15 @@ client.on("message", async (message) => {
         console.log(error);
       }
     }
+    if (cmdName === "wholesome") {
+      try {
+        const random = Math.floor(Math.random() * 100);
+        const post = await getWholesome(random);
+        message.channel.send(post.title, { files: [post.url] });
+      } catch (err) {
+        console.log(error);
+      }
+    }
     if (cmdName === "pup") {
       const random = Math.floor(Math.random() * 100);
       const post = await getFloofs(random);
@@ -37,6 +46,14 @@ client.login(TOKEN);
 const getMemes = async (num) => {
   const posts = await fetch(
     "https://www.reddit.com/r/dankmemes/hot.json?limit=100"
+  );
+  const data = await posts.json();
+  const postArray = data.data.children;
+  return postArray[num].data;
+};
+const gerWholesome = async (num) => {
+  const posts = await fetch(
+    "https://www.reddit.com/r/wholesomememes/hot.json?limit=100"
   );
   const data = await posts.json();
   const postArray = data.data.children;

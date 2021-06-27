@@ -1,3 +1,4 @@
+// const keepAlive = require('./server')
 require("dotenv").config();
 const Discord = require("discord.js");
 const client = new Discord.Client();
@@ -21,13 +22,22 @@ client.on("message", async (message) => {
         const post = await getMemes(random);
         message.channel.send(post.title, { files: [post.url] });
       } catch (err) {
-        console.log(err);
+        console.log(error);
       }
     }
     if (cmdName === "wholesome") {
       try {
         const random = Math.floor(Math.random() * 100);
         const post = await getWholesome(random);
+        message.channel.send(post.title, { files: [post.url] });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    if (cmdName === "yum") {
+      try {
+        const random = Math.floor(Math.random() * 100);
+        const post = await getFood(random);
         message.channel.send(post.title, { files: [post.url] });
       } catch (err) {
         console.log(err);
@@ -40,6 +50,7 @@ client.on("message", async (message) => {
     }
   }
 });
+  // keepAlive();
 
 client.login(TOKEN);
 
@@ -54,6 +65,14 @@ const getMemes = async (num) => {
 const getWholesome = async (num) => {
   const posts = await fetch(
     "https://www.reddit.com/r/wholesomememes/hot.json?limit=100"
+  );
+  const data = await posts.json();
+  const postArray = data.data.children;
+  return postArray[num].data;
+};
+const getFood = async (num) => {
+  const posts = await fetch(
+    "https://www.reddit.com/r/Food/hot.json?limit=100"
   );
   const data = await posts.json();
   const postArray = data.data.children;
